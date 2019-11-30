@@ -2,7 +2,7 @@ import random
 import Cifer
 
 K = 3
-SAFE_PRIME_DIAP = (10, 20)
+SAFE_PRIME_DIAP = (1, 10)
 
 
 def my_hash(objs):
@@ -17,7 +17,7 @@ def modulo_n(n):
 
 
 def generate_safe_prime(diap: tuple):
-    index = random.randint(diap[0], diap[1])
+    index = random.randint(diap[0], diap[1]-1)
     i = 0
     for prime in Cifer.SafePrimes(diap[1]):
         if i == index:

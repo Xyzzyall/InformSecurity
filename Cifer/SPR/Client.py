@@ -3,7 +3,7 @@ from Cifer.SPR.SPR import *
 import random
 
 
-SALT_DIAP = (-10000000, 10000000)
+SALT_DIAP = (0, 10)
 
 
 class Client:
@@ -24,7 +24,14 @@ class Client:
             return
         x = my_hash((login.user_salt, password))
         session_key = (login.public_key_B - K*modulo_n(self.__safe_prime__)**x) ** (self.__private_key__ + u*x)
-        myK = my_hash((session_key))
+        myK = my_hash([session_key])
+        M = my_hash([my_hash([self.__safe_prime__]) ^ my_hash([modulo_n(self.__safe_prime__)]),
+                     my_hash([login.username]),
+                     login.user_salt,
+                     login.public_key_A,
+                     login.public_key_B,
+                     myK])
+        server.login(self, login, M)
 
     def login_successful(self, server):
         print('From ' + server.name + ': ' + self.__username__ + ' logged successful!')
@@ -44,7 +51,7 @@ class Client:
     __private_key__ = 0
 
     def __generate_private_key__(self):
-        self.__private_key__ = generate_safe_prime(SAFE_PRIME_DIAP)
+        self.__private_key__ = generate_safe_prime(SAFE_PRIME_DIAP) % self.__safe_prime__
 
     def send_public_key(self):
         self.__generate_private_key__()
