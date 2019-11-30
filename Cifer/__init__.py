@@ -1,7 +1,5 @@
 from Cifer.Caesar import Caesar as Caesar
-
-
-RUS_QWERTY = 'йцукенгшщзхъфывапролджэячсмитьбюё'
+import math
 
 
 def char_frequency(textfile, bigramm=False):
@@ -11,6 +9,7 @@ def char_frequency(textfile, bigramm=False):
         bigramm_flipflop = True
         buf = ''
         for char in line:
+            char = char.lower()
             if bigramm:
                 if bigramm_flipflop:
                     buf = char
@@ -59,5 +58,34 @@ def decifer(input_file, output_file, keys):
     out.close()
 
 
+def cifer(cif, output_file): # cif should be iterable type's object
+    f = open(output_file, 'w+')
+    for line in cif:
+        f.write(line)
+    f.close()
 
 
+def normalize_freq_diagram(fr_diag):
+    fr_diag_norm = fr_diag.copy()
+    s = sum(fr_diag.values())
+    for key in fr_diag.keys():
+        fr_diag_norm[key] /= s
+    return fr_diag_norm
+
+
+def find_a_caesar_key(chr_fr_orig, chr_fr_coded):
+    #normalizing
+    chr_fr_orig_norm = normalize_freq_diagram(chr_fr_orig)
+    chr_fr_coded_norm = normalize_freq_diagram(chr_fr_coded)
+
+    result = {}
+    for key_orig in chr_fr_orig_norm.keys():
+        min_diff = math.inf
+        min_key = ''
+        for key_coded in chr_fr_coded_norm.keys():
+            diff = abs(chr_fr_orig_norm[key_orig] - chr_fr_coded_norm[key_coded])
+            if diff < min_diff:
+                min_diff = diff
+                min_key = key_coded
+        result[min_key] = key_orig
+    return result
