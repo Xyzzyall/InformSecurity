@@ -16,6 +16,7 @@ class Server:
         username = client.send_username()
         salt = client.send_salt()
         private_key = my_hash((salt, password))
+        password_verifier = modulo_n(self.__safe_prime__)**private_key
         self.__accounts__[username] = Account(username, salt, password_verifier)
 
     def login(self, client: Client, login: Login, M, K):
