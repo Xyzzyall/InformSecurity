@@ -5,11 +5,18 @@ K = 3
 SAFE_PRIME_DIAP = (1, 10)
 
 
-def my_hash(objs):
+'''def my_hash(objs):
     s = ''
     for obj in objs:
         s += str(obj)
-    return abs(hash(s)) % 100
+    return abs(hash(s)) % 100'''
+
+
+def my_hash(objs):
+    res = 0
+    for obj in objs:
+        res += hash(obj) % 100
+    return res
 
 
 def modulo_n(n):
