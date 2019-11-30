@@ -11,7 +11,7 @@ coded_chr_fr = Cifer.char_frequency(result_dir+'out_test.txt')
 key = Cifer.find_a_caesar_key(orig_chr_fr, coded_chr_fr)
 print(key)
 
-Cifer.decifer(result_dir+'out_test.txt', result_dir+'out_decoded_test.txt', key)
+Cifer.caesar_decifer(result_dir + 'out_test.txt', result_dir + 'out_decoded_test.txt', key)
 
 
 orig_chr_fr = Cifer.char_frequency(reference, bigramm=True)
@@ -19,4 +19,4 @@ coded_chr_fr = Cifer.char_frequency(result_dir+'out_test.txt', bigramm=True)
 key = Cifer.find_a_caesar_key(orig_chr_fr, coded_chr_fr)
 print(key)
 
-Cifer.decifer(result_dir+'out_test.txt', result_dir+'out_decoded_bigram_test.txt', key)
+Cifer.caesar_decifer(result_dir + 'out_test.txt', result_dir + 'out_decoded_bigram_test.txt', key)
