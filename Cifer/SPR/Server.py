@@ -19,17 +19,18 @@ class Server:
         password_verifier = modulo_n(self.__safe_prime__)**private_key
         self.__accounts__[username] = Account(username, salt, password_verifier)
 
-    def login(self, client: Client, login: Login, M, K):
+    def login(self, client: Client, login: Login, M):
         u = my_hash((login.public_key_A, login.public_key_B))
         if login.public_key_A == 0:
             client.login_failed(self, 'A == 0')
             return
         session_key = (login.public_key_A*self.__accounts__[login.username].pass_verifier**u)**self.__private_key__
-        server_K = my_hash((session_key))
-        if server_K == K:
+        server_K = my_hash([session_key])
+        server_M = my_hash([login.public_key_A, M, server_K])
+        if server_M == M:
             client.login_successful(self)
         else:
-            client.login_failed(self, 'your key is ' + str(K) + ', but mine is ' + str(server_K))
+            client.login_failed(self, 'your key is ' + str(M) + ', but mine is ' + str(server_M))
 
     def __str__(self):
         res = self.name + ': safe_prime=' + str(self.__safe_prime__) + '\nAccounts:\n'
@@ -40,7 +41,7 @@ class Server:
     __private_key__ = 0
 
     def __generate_private_key__(self):
-        self.__private_key__ = generate_safe_prime(SAFE_PRIME_DIAP)
+        self.__private_key__ = generate_safe_prime(SAFE_PRIME_DIAP) % self.__safe_prime__
 
     def send_public_key(self):
         self.__generate_private_key__()
