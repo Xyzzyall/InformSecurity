@@ -7,7 +7,7 @@ class RSA:
     __private_key__ = 0
 
     def __init__(self):
-        primes = [prime for prime in SafePrimes(30)]
+        primes = [prime for prime in SafePrimes(20)]
         n_prime = random.choice(primes)
         m_prime = random.choice(primes)
 
@@ -21,7 +21,7 @@ class RSA:
         self.__public_key__ = [open_exponent, modulus]
 
         d_list = []
-        for i in range(1, 10000):
+        for i in range(1, 10000000):
             if (i * open_exponent) % eiler_function == 1:
                 d_list.append(i)
 
