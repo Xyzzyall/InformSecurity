@@ -1,13 +1,16 @@
 import math
 
 
-def char_frequency(textfile, bigramm=False):
+def char_frequency(textfile, bigramm=False, filt=None):
     res = {}
     f = open(textfile, 'r')
     for line in f:
         bigramm_flipflop = True
         buf = ''
         for char in line:
+            if filt:
+                if char not in filt:
+                    continue
             char = char.lower()
             if bigramm:
                 if bigramm_flipflop:
