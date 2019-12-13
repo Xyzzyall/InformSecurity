@@ -1,9 +1,11 @@
 import random
+from typing import Any, Union
+
 import Cifer
 
 K = 3
-SAFE_PRIME_DIAP = (1, 10)
-
+SAFE_PRIME_DIAP = (5, 10)
+mod_n = 7
 
 '''def my_hash(objs):
     s = ''
@@ -20,7 +22,8 @@ def my_hash(objs):
 
 
 def modulo_n(n):
-    return random.randint(2, n - 2)
+    #mod_n = random.randint(2, n - 2)
+    return mod_n
 
 
 def generate_safe_prime(diap: tuple):
