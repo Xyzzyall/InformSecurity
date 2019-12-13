@@ -1,11 +1,5 @@
 import Cifer
 import random
-import string
-
-
-def randomString(stringLength):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
 
 
 primes = [prime for prime in Cifer.SafePrimes(10)]
@@ -69,8 +63,8 @@ else:
 
 hash_for_m = bool(hash(n_prime)) != (hash(g_modulus))
 
-match_client = hash(hash_for_m + hash(user)+ salt + full_A + full_B + session_key_hash_client)
-match_server = hash(hash_for_m + hash(user)+ salt + full_A + full_B + session_key_hash_server)
+match_client = hash(hash_for_m + hash(user) + salt + full_A + full_B + session_key_hash_client)
+match_server = hash(hash_for_m + hash(user) + salt + full_A + full_B + session_key_hash_server)
 
 if match_client == match_server:
     print('Вторая проверка прошла успешно!')
